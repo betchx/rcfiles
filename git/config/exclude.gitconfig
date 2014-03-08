@@ -1,0 +1,22 @@
+# setup global excludefile
+
+[core]
+	excludesfile=%YOU MUST REPLACE HERE%/gitignore.txt
+
+
+# update .git/info/exclude
+# ignore files only here
+
+[guitool "exclude/string"]
+	cmd = echo \"$ARGS\" >> .git/info/exclude
+	argprompt = yes
+[guitool "exclude/file"]
+	cmd = echo \"$FILENAME\" >> .git/info/exclude
+	needsfile = yes
+[guitool "exclude/cancel-last"]
+	cmd = tail -1 .git/info/exclude | sed s/^/!/ >> .git/info/exclude
+[guitool "exclude/directory"]
+	cmd = dirname \"$FILENAME\"/ >> .git/info/exclude
+	needsfile = yes
+
+# vim: ft=gitconfig

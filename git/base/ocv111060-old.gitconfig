@@ -1,0 +1,113 @@
+[core]
+	quotepath = false
+	excludesfile = d:/Users/03948/Softs/cygwin/home/03948/.gitignore
+#[guitool "Reset"]
+#	cmd = git checkout $FILENAME
+#	needsfile = yes
+#[guitool "Add Selected file to .gitignore"]
+#	cmd = echo $FILENAME >> .gitignore
+#	needsfile = yes
+#[guitool "add text into .gitignore"]
+#	cmd = echo \"$ARGS\" | tee -a  .gitignore
+#	argprompt = yes
+[gui]
+[user]
+	email = tanabe.atsushi@nikken.co.jp
+	name = TANABE Atsushi
+[http]
+	proxy = http://oproxy:8080
+#[guitool "set_file_encoding"]
+#	cmd = echo $FILENAME encoding=$ARGS >> .gitattributes
+#	needsfile = yes
+#	argprompt = yes
+#[mergetool "winmerge"]
+#	cmd ="winmerge.bat \"$LOCAL\" x \"$REMOTE\" y \"$BASE\" z \"$MERGED\" e "
+#	trustExitCode = false
+[merge]
+[mergetool "gvimdiff"]
+	cmd = d:Users/03948/Softs/vim73-kaoriya-win64/gvim
+	path = d:/Users/03948/Softs/vim73-kaoriya-win64/gvimdiff
+[mergetool "winmerge"]
+	path = d:/Users/03948/Softs/WinMergePortable32/App/WinMerge/WinMergeU.exe
+	trustExitCode = false
+[gui]
+	recentrepo = C:/新しいフォルダー/stft
+	encoding = utf-8
+[guitool "Reset/file"]
+     cmd = git checkout $FILENAME
+     needsfile = yes
+[guitool "ignore/file"]
+     cmd = echo $FILENAME >> .gitignore
+     needsfile = yes
+[guitool "ignore/string"]
+     cmd = echo \"$ARGS\" | tee -a  .gitignore
+     argprompt = yes
+[guitool "exclude/string"]
+     cmd = echo \"$ARGS\" >> .git/info/exclude
+     argprompt = yes
+[guitool "exclude/file"]
+     cmd = echo \"$FILENAME\" >> .git/info/exclude
+     needsfile = yes
+[guitool "exclude/cancel-last"]
+     cmd = tail -1 .git/info/exclude | sed s/^/!/ >> .git/info/exclude
+[guitool "encoding/file/default"]
+     cmd = echo \"$FILENAME encoding=cp932\" >> .gitattributes
+     needsfile = yes
+[guitool "encoding/file/sjis"]
+     cmd = echo \"$FILENAME encoding=Shift-JIS\" >> .gitattributes
+     needsfile = yes
+[guitool "encoding/file/utf-8"]
+     cmd = echo \"$FILENAME encoding=UTF-8\" >> .gitattributes
+     needsfile = yes
+[guitool "encoding/file/euc"]
+     cmd = echo \"$FILENAME encoding=euc-JP\" >> .gitattributes
+     needsfile = yes
+[guitool "encoding/string/default"]
+     cmd = echo \"$ARGS encoding=cp932\" >> .gitattributes
+     argprompt = yes
+[guitool "encoding/string/sjis"]
+     cmd = echo \"$ARGS encoding=Shift-JIS\" >> .gitattributes
+     argprompt = yes
+[guitool "encoding/string/utf-8"]
+     cmd = echo \"$ARGS encoding=UTF-8\" >> .gitattributes
+     argprompt = yes
+[guitool "encoding/string/euc"]
+     cmd = echo \"$ARGS encoding=euc-JP\" >> .gitattributes
+     argprompt = yes
+[guitool "encoding/file/any"]
+     cmd = echo $FILENAME encoding=$ARGS >> .gitattributes
+     needsfile = yes
+     argprompt = yes
+[guitool "encoding-local/file/default"]
+     cmd = echo \"$FILENAME encoding=cp932\" >> .git/info/attributes
+     needsfile = yes
+[guitool "encoding-local/file/sjis"]
+     cmd = echo \"$FILENAME encoding=Shift-JIS\" >> .git/info/attributes
+     needsfile = yes
+[guitool "encoding-local/file/utf-8"]
+     cmd = echo \"$FILENAME encoding=UTF-8\" >> .git/info/attributes
+     needsfile = yes
+[guitool "encoding-local/file/euc"]
+     cmd = echo \"$FILENAME encoding=euc-JP\" >> .git/info/attributes
+     needsfile = yes
+[guitool "encoding-local/string/default"]
+     cmd = echo \"$ARGS encoding=cp932\" >> .git/info/attributes
+     argprompt = yes
+[guitool "encoding-local/string/sjis"]
+     cmd = echo \"$ARGS encoding=Shift-JIS\" >> .git/info/attributes
+     argprompt = yes
+[guitool "encoding-local/string/utf-8"]
+     cmd = echo \"$ARGS encoding=UTF-8\" >> .git/info/attributes
+     argprompt = yes
+[guitool "encoding-local/string/euc"]
+     cmd = echo \"$ARGS encoding=euc-JP\" >> .git/info/attributes
+     argprompt = yes
+[guitool "encoding-local/file/any"]
+     cmd = echo \"$FILENAME encoding=$ARGS\" >> .git/info/attributes
+     needsfile = yes
+     argprompt = yes
+[guitool "exclude/directory"]
+     cmd = dirname \"$FILENAME\"/ >> .git/info/exclude
+     needsfile = yes
+[diff]
+	external = wmdiff.sh

@@ -1,0 +1,37 @@
+[core]
+	quotepath = false
+	excludesfile = v:/home/.gitignore
+[guitool "reset/file"]
+	cmd = git checkout $FILENAME
+	noconsole = yes
+	needsfile = yes
+[guitool "Add Selected file to .gitignore"]
+	cmd = echo $FILENAME >> .gitignore
+	needsfile = yes
+[guitool "add text into .gitignore"]
+	cmd = echo \"$ARGS\" | tee -a  .gitignore
+	argprompt = yes
+[gui]
+[user]
+	email = tanabe.atsushi@nikken.jp
+	name = Atsushi TANABE
+[http]
+	proxy = ocp16:8080
+#	proxy = 172.16.0.56:8080
+#	proxy = oproxy:8080   # old one
+[guitool "set_file_encoding"]
+	cmd = echo $FILENAME encoding=$ARGS >> .gitattributes
+	needsfile = yes
+	argprompt = yes
+[merge]
+#[mergetool "winmerge"]
+#	cmd ="winmerge.bat \"$LOCAL\" x \"$REMOTE\" y \"$BASE\" z \"$MERGED\" e "
+#	trustExitCode = false
+[mergetool "gvimdiff"]
+	cmd = S:/vim73-kaoriya-win64/gvim
+	path = S:/vim73-kaoriya-win64/gvimdiff
+[mergetool "winmerge"]
+	path = S:/WinMergePortable/App/WinMerge/WinMergeU.exe
+	trustExitCode = false
+[gui]
+	recentrepo = O:/Analysis/NoiseBarier/H24/com3D/parse

@@ -1,0 +1,8 @@
+
+[guitool "ignore/file"]
+	cmd = echo $FILENAME >> .gitignore
+	needsfile = yes
+[guitool "ignore/string"]
+	cmd = echo \"$ARGS\" | tee -a  .gitignore
+	argprompt = yes
+
