@@ -1,12 +1,16 @@
 " This file was made from readme of NeoBundle
-" 
+"
+
+
+filetype off
 
 if has('vim_starting')
-	set nocompatible               " Be iMproved
+  set nocompatible               " Be iMproved
 
-	" Required:
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+
 
 " Required:
 call neobundle#rc(expand('~/.vim/bundle/'))
@@ -29,16 +33,16 @@ NeoBundle 'xmledit'
 
 " inc
 if has('kaoriya')
-	" Kaoriya Vim has vimproc already.
+  " Kaoriya Vim has vimproc already.
 else
-NeoBundle 'Shougo/vimproc', {
-			\ 'build' : {
-			\     'windows' : 'make -f make_mingw32.mak',
-			\     'cygwin' : 'make -f make_cygwin.mak',
-			\     'mac' : 'make -f make_mac.mak',
-			\     'unix' : 'make -f make_unix.mak',
-			\    },
-			\ }
+  NeoBundle 'Shougo/vimproc', {
+        \ 'build' : {
+        \     'windows' : 'make -f make_mingw32.mak',
+        \     'cygwin' : 'make -f make_cygwin.mak',
+        \     'mac' : 'make -f make_mac.mak',
+        \     'unix' : 'make -f make_unix.mak',
+        \    },
+        \ }
 endif
 
 
