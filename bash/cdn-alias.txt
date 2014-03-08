@@ -1,0 +1,2 @@
+  198  alias lsn='ls | cat -n'
+  199  function cdn(){ cd `ls | sed "$1p; d"`;}
