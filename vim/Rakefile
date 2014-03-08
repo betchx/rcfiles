@@ -1,0 +1,65 @@
+
+conf="_vimrc"
+home = ENV['HOME']
+target = home+"/"+conf
+dot_target = home + "/.vimrc"
+user_conf = "bundle.vim"
+backups = home + "/.backups/vim"
+config_files = FileList['config/*.vim']
+bundle = home+"/.vim/bundle"
+neobundle = bundle+'/neobundle.vim/README.md'
+
+task :default => conf
+
+
+desc "Create #{conf} file"
+file conf => [user_conf, *config_files] do |t|
+  open(conf, "wb"){|out|
+    out.puts <<-NNN
+" Vim initialization file
+" Updated on #{Time.now.strftime('%Y-%m-%d %H:%M')}
+
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+  finish
+endif
+
+" Make improved
+set nocompatible
+
+" use gf to open file under the carret.
+
+    NNN
+    out.puts '" Bundles '
+    out.puts "source #{Dir.pwd}/#{user_conf}"
+    config_files.each do |filename|
+      #sh "cat #{filename} >> #{conf}"
+      out.puts
+      out.puts "source #{Dir.pwd}/#{filename}"
+    end
+  }
+end
+
+
+task :install => [target, dot_target, neobundle] do 
+end
+
+file target => [conf, backups] do
+  backupfile = backups + Time.now.strftime("/%Y-%m-%d_%H-%M") + conf
+  sh "mv #{target} #{backupfile}" if File.file?(target)
+  sh "cp #{conf} #{target}"
+end
+
+file dot_target => [conf, backups] do
+  backupfile = backups + Time.now.strftime("/%Y-%m-%d_%H-%M.vimrc")
+  sh "mv #{dot_target} #{backupfile}" if File.file?(dot_target)
+  sh "cp #{conf} #{dot_target}"
+end
+
+directory backups
+directory bundle
+
+
+file neobundle => bundle do
+  sh "git clone https://github.com/Shougo/neobundle.vim #{bundle}/neobundle.vim"
+end
