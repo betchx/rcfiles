@@ -26,12 +26,12 @@ file user_conf do
   user_name = `git config user.name`.strip
   while user_name.empty?
     print "Enter Username: "
-    user_name = gets.strip
+    user_name = $stdin.gets.strip
   end 
   email = `git config user.email`.strip
   while email.empty?
     print "Enter E-mail Address: "
-    email = gets.strip
+    email = $stdin.gets.strip
   end 
   open(user_conf, "wb") do |out|
     out.puts <<-NNN
@@ -45,7 +45,7 @@ end
 
 task :install => [conf, backups] do 
   backupfile = backups + Time.now.strftime("/%Y-%m-%d_%H-%M") + conf
-  sh "mv #{target} #{backupfile}"
+  sh "mv #{target} #{backupfile}" if File.file?(target)
   sh "cp #{conf} #{target}"
 end
 
