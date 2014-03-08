@@ -29,3 +29,6 @@ esac
 alias df='df -h'
 alias du='du -h'
 
+# use vim instead of vi
+alias vi=vim
+
