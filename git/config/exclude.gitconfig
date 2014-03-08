@@ -1,8 +1,8 @@
+#
 # setup global excludefile
 
 [core]
-	excludesfile=%YOU MUST REPLACE HERE%/gitignore.txt
-
+	excludesfile=%YOU_MUST_REPLACE_HERE%/gitignore.txt
 
 # update .git/info/exclude
 # ignore files only here
