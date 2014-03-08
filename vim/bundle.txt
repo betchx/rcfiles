@@ -1,0 +1,17 @@
+
+Install vimproc (it can make NeoBundle install asynchronously )
+NOTE: Installation does not required for Kaoriya vim.
+
+https://github.com/Shougo/vimproc.vim 
+
+
+
+Install Neobundle
+
+ $ mkdir -p ~/.vim/bundle
+ $ git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+
+include  bundle.vim in this directory from just after 'set nocompatible'  at the top of .vimrc.
+
+
+
