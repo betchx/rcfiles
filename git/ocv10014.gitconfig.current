@@ -1,0 +1,18 @@
+[core]
+	quotepath = false
+	excludesfile = /home/03948/.gitignore
+[guitool "Reset"]
+	cmd = git checkout $FILENAME
+	needsfile = yes
+[guitool "Add Selected file to .gitignore"]
+	cmd = echo $FILENAME >> .gitignore
+	needsfile = yes
+[guitool "add text int .gitignore"]
+	cmd = echo \"$ARGS\" | tee -a  .gitignore
+	argprompt = yes
+[gui]
+[user]
+	email = tanabe.atsushi@nikken.co.jp
+	name = TANABE Atsushi
+[http]
+	proxy = oproxy:8080

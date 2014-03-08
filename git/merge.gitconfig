@@ -1,0 +1,6 @@
+[mergetool "gvimdiff"]
+	cmd = d:Users/03948/Softs/vim73-kaoriya-win64/gvim
+	path = d:/Users/03948/Softs/vim73-kaoriya-win64/gvimdiff
+[mergetool "winmerge"]
+	path = d:/Users/03948/Softs/WinMergePortable/App/WinMerge/WinMergeU.exe
+	trustExitCode = false

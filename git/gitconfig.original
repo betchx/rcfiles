@@ -1,0 +1,11 @@
+[user]
+	name = Atsushi TANABE
+	email = tanabe.atsushi@nikken.co.jp
+[core]
+	filemode = false
+[guitool "ignore/string"]
+	cmd = echo \"$ARGS\" | tee -a .gitignore
+	argprompt = yes
+[guitool "ignore/file"]
+	cmd = echo \"$FILENAME\" | tee -a .gitignore
+	needsfile = yes

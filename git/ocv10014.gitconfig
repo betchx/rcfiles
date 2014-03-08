@@ -1,0 +1,14 @@
+        excludesfile = d:/DATA/TanabeTEmpBAckup/Personal/home/gitignore.txt
+[user]
+	email = tanabe.atsushi@nikken.jp
+	name = TANABE Atsushi
+[merge]
+        tool = winmerge
+[mergetool "winmerge"]
+	path = d:/DATA/TanabeTEmpBAckup/Personal/Softs/WinMergePortable/App/WinMerge/WinMergeU.exe
+	trustExitCode = false
+[http]
+	proxy = http://oproxy:8080
+[https]
+	proxy = http://oproxy:8080
+
