@@ -1,5 +1,5 @@
 
-#alias ls='ls -hF --color=none --show-control-chars' # classify files in colour
+alias ls='ls -hF --color=none --show-control-chars' # classify files in colour
 # alias dir='ls --color=auto --format=vertical'
 # alias vdir='ls --color=auto --format=long'
 alias ll='ls -l'                              # long list
