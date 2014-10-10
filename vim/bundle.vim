@@ -13,7 +13,7 @@ endif
 
 
 " Required:
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
 " Required:
@@ -45,6 +45,8 @@ else
         \ }
 endif
 
+" Required:
+call neobundle#end()
 
 " Required:
 filetype plugin indent on
