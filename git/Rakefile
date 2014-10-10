@@ -35,9 +35,9 @@ file user_conf do
   end 
   open(user_conf, "wb") do |out|
     out.puts <<-NNN
-[user]
-	name = #{user_name}
-	email = #{email}
+[user]\r
+	name = #{user_name}\r
+	email = #{email}\r
     NNN
   end
 end
