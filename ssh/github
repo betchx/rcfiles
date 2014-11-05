@@ -3,5 +3,5 @@ Host github.com
   User git
   Hostname ssh.github.com
   Port 443
-  ProxyCommand connect.exe -H ocp16:8080 %h %p
+  ProxyCommand connect.exe -H 192.168.166.12:8080 %h %p
 
