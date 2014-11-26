@@ -13,6 +13,14 @@ NeoBundle 'xmledit'
 " Git
 NeoBundle 'tpope/vim-fugitive'
 
+" Unite
+NeoBundle 'Shougo/unite.vim'
+
+" Unite sources
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'rhysd/unite-ruby-require.vim'
+
+
 
 " You can specify revision/branch/tag.
 " NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
