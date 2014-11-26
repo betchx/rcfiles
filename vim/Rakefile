@@ -4,15 +4,20 @@ home = ENV['HOME']
 target = home+"/"+conf
 dot_target = home + "/.vimrc"
 user_conf = "bundle.vim"
+locals = "local"
+HOST_NAME = `hostname`.strip
+local_conf = "#{locals}/#{HOST_NAME}.vim"
+local_bundle = "#{locals}/#{HOST_NAME}-bundle.vim"
 backups = home + "/.backups/vim"
 config_files = FileList['config/*.vim']
 bundle = home+"/.vim/bundle"
 neobundle = bundle+'/neobundle.vim/README.md'
 
+
 task :default => conf
 
 
-desc "Create #{conf} file"
+desc "Create #{conf} file [default]"
 file conf => [user_conf, *config_files] do |t|
   open(conf, "wb"){|out|
     out.puts <<-NNN
@@ -29,9 +34,49 @@ set nocompatible
 
 " use gf to open file under the carret.
 
+" +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+" Bundles
+
+
+" Required
+filetype off
+
+if has('vim_starting')
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
     NNN
-    out.puts '" Bundles '
     out.puts "source #{Dir.pwd}/#{user_conf}"
+    if File.file?(local_bundle)
+      out.puts "source #{Dir.pwd}/#{local_bundle}"
+    end
+    out.puts <<-EEE
+" Required:
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+
+" +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    EEE
+    if File.file?(local_conf)
+      out.puts '"Local Config'
+      out.puts "source #{Dir.pwd}/#{local_conf}"
+    end
     config_files.each do |filename|
       #sh "cat #{filename} >> #{conf}"
       out.puts
@@ -40,8 +85,8 @@ set nocompatible
   }
 end
 
-
-task :install => [target, dot_target, neobundle] do 
+desc "Install vimrc files with backing up into #{backups}."
+task :install => [target, dot_target, neobundle] do
 end
 
 file target => [conf, backups] do
@@ -58,8 +103,29 @@ end
 
 directory backups
 directory bundle
-
+directory locals
 
 file neobundle => bundle do
   sh "git clone https://github.com/Shougo/neobundle.vim #{bundle}/neobundle.vim"
 end
+
+desc "Create the local config file of this host."
+task :local_conf => [locals] do
+  if File.file?(local_bundle)
+    puts "Local bundle file: #{local_bundle}"
+  else
+    open(local_bundle, "wb") do |out|
+      out.puts "\"List local bundles here."
+    end
+    puts "Local bundle file: #{local_bundle} (created)"
+  end
+  if File.file?(local_conf)
+    puts "Local config file: #{local_conf}"
+  else
+    open(local_conf, "wb") do |out|
+      out.puts "\" Local config file for #{HOST_NAME}"
+    end
+    puts "Local config file : #{local_conf} (created)"
+  end
+end
+
