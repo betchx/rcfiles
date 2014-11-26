@@ -21,6 +21,16 @@ NeoBundle 'Shougo/unite-outline'
 NeoBundle 'rhysd/unite-ruby-require.vim'
 
 
+" From Vim Technique Bible
+
+" SpeedDating
+NeoBundle 'tpope/vim-speeddating'
+
+
+" For Ruby
+" see http://qiita.com/alpaca_taichou/items/ab2ad83ddbaf2f6ce7fb
+NeoBundle 'AndrewRadev/switch.vim'
+
 
 " You can specify revision/branch/tag.
 " NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
