@@ -3,7 +3,18 @@
 " This file was made from readme of NeoBundle
 
 " My Bundles here:
-NeoBundle 'Shougo/neocomplcache'
+
+
+" Switch conpletion plugin by requirement.
+if has("lua")
+  " NeoComplete requires if_lua
+  NeoBundle 'Shougo/neocomplete'
+else
+  " NoLua
+  NeoBundle 'Shougo/neocomplcache'
+endif
+
+
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'xmledit'
