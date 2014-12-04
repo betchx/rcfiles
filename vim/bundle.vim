@@ -56,3 +56,17 @@ NeoBundle 'Shougo/vimproc', {
       \    },
       \ }
 
+" Quick Run
+NeoBundle 'thinca/vim-quickrun'
+
+" display error in Vim
+" http://d.hatena.ne.jp/osyo-manga/20120924/1348473304
+NeoBundle 'osyo-manga/vim-watchdogs'
+
+" quickrun hooks
+NeoBundle 'osyo-manga/shabadou.vim'
+
+" hilight error
+NeoBundle 'jceb/vim-hier'
+
+
