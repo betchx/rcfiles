@@ -19,7 +19,7 @@ task :default => conf
 
 
 desc "Create #{conf} file [default]"
-file conf => [user_conf, *config_files, vim_backup] do |t|
+file conf => [user_conf, *config_files] do |t|
   open(conf, "wb"){|out|
     out.puts <<-NNN
 " Vim initialization file
@@ -92,7 +92,7 @@ source #{Dir.pwd}/bundle-config.vim
 end
 
 desc "Install vimrc files with backing up into #{backups}."
-task :install => [target, dot_target, neobundle] do
+task :install => [target, dot_target, neobundle, vim_backup] do
 end
 
 file target => [conf, backups] do
