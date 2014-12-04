@@ -8,10 +8,10 @@
 " Switch conpletion plugin by requirement.
 if has("lua")
   " NeoComplete requires if_lua
-  NeoBundle 'Shougo/neocomplete'
+  NeoBundle 'Shougo/neocomplete', {'disabled' : !has('lua')}
 else
-  " NoLua
-  NeoBundle 'Shougo/neocomplcache'
+  " In case of NoLua
+  NeoBundle 'Shougo/neocomplcache', {'disabled' : has('lua')}
 endif
 
 
