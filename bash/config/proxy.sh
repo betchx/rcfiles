@@ -1,19 +1,23 @@
 # Proxy
 
-export address=192.168.166.12
-export port=8080
+export ns_proxy_address=192.168.166.12
+export ns_proxy_port=8080
 
 proxy_setup()
 {
-  export HTTP_PROXY=$address:$port
-  export https_proxy=$address:$port
+  export HTTP_PROXY=$ns_proxy_address:$ns_proxy_port
+  export HTTPS_PROXY=$HTTP_PROXY
+  git config --global http.proxy http://$HTTP_PROXY
+  git config --global https.proxy http://$HTTP_PROXY
   echo proxy of $HTTP_PROXY will be used.
 }
 
 proxy_reset()
 {
   unset HTTP_PROXY
-  unset https_proxy
+  unset HTTPS_PROXY
+  git config --global --unset http.proxy
+  git config --global --unset https.proxy
   echo No Proxy will be used.
 }
 
