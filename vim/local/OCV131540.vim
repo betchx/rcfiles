@@ -9,3 +9,6 @@ let g:rsenseHome='C:/Softs/rsense-0.3'
 let g:neocomplcache#sources#rsense#home_directory=g:rsenseHome
 
 
+" Haskell
+autocmd FileType hs setlocal omnifunc=necoghc#omnifunc
+
