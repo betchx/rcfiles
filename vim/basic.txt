@@ -1,0 +1,12 @@
+# vim: set filetype=ruby
+
+# Configurations for basic use
+# list up filename of configuration files in config sub directory
+# included in vimrc files.
+config/filetype.vim
+config/japanese.vim
+config/general.vim
+config/visual.vim
+config/backups.vim
+config/xml.vim
+

@@ -3,13 +3,21 @@ conf="_vimrc"
 home = ENV['HOME']
 target = home+"/"+conf
 dot_target = home + "/.vimrc"
-user_conf = "bundle.vim"
+bundles = "bundle.vim"
 locals = "local"
 HOST_NAME = `hostname`.strip
 local_conf = "#{locals}/#{HOST_NAME}.vim"
 local_bundle = "#{locals}/#{HOST_NAME}-bundle.vim"
 backups = home + "/.backups/vim"
-config_files = FileList['config/*.vim']
+basic_list = "basic.txt"
+local_list = "local/#{HOST_NAME}.txt"
+
+def gather(file)
+  open(file,"rb").readlines.map{|x| x.strip.sub(/#.*/,'')}.reject{|x| x.empty?} rescue []
+end
+
+config_files = gather(basic_list)
+local_files = gather(local_list)
 bundle = home+"/.vim/bundle"
 neobundle = bundle+'/neobundle.vim/README.md'
 vim_backup = "#{home}/.vimbackup"
@@ -19,8 +27,11 @@ task :default => conf
 
 
 desc "Create #{conf} file [default]"
-file conf => [user_conf, *config_files] do |t|
+file conf => [bundles, __FILE__, *config_files] do |t|
   open(conf, "wb"){|out|
+    def out.source(path)
+      self.puts "source #{Dir.pwd}/#{path}"
+    end
     out.puts <<-NNN
 " Vim initialization file
 " Updated on #{Time.now.strftime('%Y-%m-%d %H:%M')}
@@ -56,11 +67,10 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
-
     NNN
-    out.puts "source #{Dir.pwd}/#{user_conf}"
+    out.source bundles
     if File.file?(local_bundle)
-      out.puts "source #{Dir.pwd}/#{local_bundle}"
+      out.source local_bundle
     end
     out.puts <<-EEE
 " Required:
@@ -73,20 +83,29 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
-" Read settings for global bundles.
-source #{Dir.pwd}/bundle-config.vim
 
 " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+" General Configs
     EEE
-    if File.file?(local_conf)
-      out.puts '"Local Config'
-      out.puts "source #{Dir.pwd}/#{local_conf}"
-    end
     config_files.each do |filename|
-      #sh "cat #{filename} >> #{conf}"
+      out.source filename
+    end
+    out.puts '"Local Config'
+    out.source local_conf if File.file?(local_conf)
+    bundle_conf_dir = "bundle_confs"
+    if false
+    out.puts <<-NNN
+    set runtimepath^=#{Dir.pwd}
+    runtime! '#{bundle_conf_dir}/*.vim'
+    set runtimepath-=#{Dir.pwd}
+    NNN
+    else
       out.puts
-      out.puts "source #{Dir.pwd}/#{filename}"
+      out.puts '"Configs for Bundles. each bundle may check it was installed or not'
+      Dir[bundle_conf_dir+'/*.vim'].each do |filename|
+        out.source filename
+      end
     end
   }
 end
