@@ -12,13 +12,14 @@ backups = home + "/.backups/vim"
 config_files = FileList['config/*.vim']
 bundle = home+"/.vim/bundle"
 neobundle = bundle+'/neobundle.vim/README.md'
+vim_backup = "#{home}/.vimbackup"
 
 
 task :default => conf
 
 
 desc "Create #{conf} file [default]"
-file conf => [user_conf, *config_files] do |t|
+file conf => [user_conf, *config_files, vim_backup] do |t|
   open(conf, "wb"){|out|
     out.puts <<-NNN
 " Vim initialization file
@@ -37,6 +38,8 @@ set nocompatible
 " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 " Bundles
 
+" use https: protocol instead of git:
+let g:neobundle_default_git_protocol='https'
 
 " Required
 filetype off
@@ -107,6 +110,7 @@ end
 directory backups
 directory bundle
 directory locals
+directory vim_backup
 
 file neobundle => bundle do
   sh "git clone https://github.com/Shougo/neobundle.vim #{bundle}/neobundle.vim"
