@@ -1,3 +1,4 @@
+# vim: set makeprg=rake
 
 conf="_vimrc"
 home = ENV['HOME']
@@ -154,4 +155,5 @@ task :local_conf => [locals] do
     puts "Local config file : #{local_conf} (created)"
   end
 end
+
 
