@@ -10,7 +10,7 @@ if has("autocmd")
 
   " ==============================================
   " Fortran
-  " f90ファイルの場合はendoを使う
+  " f90ファイルの場合はenddoを使う
   au! BufRead, BufNewFile *.f90 let b:fortran_do_enddo=1
 endif
 
