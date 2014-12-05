@@ -5,10 +5,10 @@ home = ENV['HOME']
 target = home+"/"+conf
 dot_target = home + "/.vimrc"
 bundles = "bundle.vim"
-locals = "local"
+local_dir = "local"
 HOST_NAME = `hostname`.strip
-local_conf = "#{locals}/#{HOST_NAME}.vim"
-local_bundle = "#{locals}/#{HOST_NAME}-bundle.vim"
+local_conf = "#{local_dir}/#{HOST_NAME}.vim"
+local_bundle = "#{local_dir}/#{HOST_NAME}-bundle.vim"
 backups = home + "/.backups/vim"
 basic_list = "basic.txt"
 local_list = "local/#{HOST_NAME}.txt"
@@ -28,7 +28,7 @@ task :default => conf
 
 
 desc "Create #{conf} file [default]"
-file conf => [bundles, __FILE__, *config_files] do |t|
+file conf => [bundles, __FILE__, local_bundle, local_conf, *config_files] do |t|
   open(conf, "wb"){|out|
     def out.source(path)
       self.puts "source #{Dir.pwd}/#{path}"
@@ -129,7 +129,7 @@ end
 
 directory backups
 directory bundle
-directory locals
+directory local_dir
 directory vim_backup
 
 file neobundle => bundle do
@@ -137,23 +137,20 @@ file neobundle => bundle do
 end
 
 desc "Create the local config file of this host."
-task :local_conf => [locals] do
-  if File.file?(local_bundle)
-    puts "Local bundle file: #{local_bundle}"
-  else
-    open(local_bundle, "wb") do |out|
-      out.puts "\"List local bundles here."
-    end
-    puts "Local bundle file: #{local_bundle} (created)"
+task :locals => [local_bundle, local_conf]
+
+file local_bundle => [local_dir] do
+  open(local_bundle, "wb") do |out|
+    out.puts "\"List local bundles here."
   end
-  if File.file?(local_conf)
-    puts "Local config file: #{local_conf}"
-  else
-    open(local_conf, "wb") do |out|
-      out.puts "\" Local config file for #{HOST_NAME}"
-    end
-    puts "Local config file : #{local_conf} (created)"
+  puts "Local bundle file: #{local_bundle} (created)"
+end
+
+file local_conf => [local_dir] do
+  open(local_conf, "wb") do |out|
+    out.puts "\" Local config file for #{HOST_NAME}"
   end
+  puts "Local config file : #{local_conf} (created)"
 end
 
 
