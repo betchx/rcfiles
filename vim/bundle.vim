@@ -22,7 +22,8 @@ NeoBundle 'Shougo/neosnippet-snippets'
 " Additional Snipets
 NeoBundle 'honza/vim-snippets'
 
-
+" CommentAnyWay 
+NeoBundle 'tyru/caw.vim.git'
 
 " XML
 NeoBundle 'xmledit'
