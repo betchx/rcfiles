@@ -14,9 +14,17 @@ else
   NeoBundle 'Shougo/neocomplcache', {'disabled' : has('lua')}
 endif
 
+" Snippets
 
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
+
+" Additional Snipets
+NeoBundle 'honza/vim-snippets'
+
+
+
+" XML
 NeoBundle 'xmledit'
 "NeoBundle 'kien/ctrlp.vim'
 "NeoBundle 'flazz/vim-colorschemes'
