@@ -112,8 +112,8 @@ NeoBundleCheck
 end
 
 desc "Install vimrc files with backing up into #{backups}."
-task :install => [target, dot_target, neobundle, vim_backup] do
-end
+task :install => [target, dot_target, neobundle, vim_backup]
+
 
 file target => [conf, backups] do
   backupfile = backups + Time.now.strftime("/%Y-%m-%d_%H-%M") + conf
