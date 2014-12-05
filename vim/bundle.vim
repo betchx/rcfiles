@@ -42,6 +42,9 @@ NeoBundle 'tpope/vim-speeddating'
 " see http://qiita.com/alpaca_taichou/items/ab2ad83ddbaf2f6ce7fb
 NeoBundle 'AndrewRadev/switch.vim'
 
+" surround
+NeoBundle 'tpope/vim-surround'
+
 
 " You can specify revision/branch/tag.
 " NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
