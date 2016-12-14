@@ -25,7 +25,7 @@ file conf => config_files do |t|
   }
 end
 
-
+desc "Install #{conf} file into home with backup"
 task :install => [target ] do 
 end
 
