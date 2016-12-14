@@ -3,3 +3,4 @@ git/user.gitconfig
 vim/_vimrc
 bash/.bashrc
 .bash_history
+*.swp
