@@ -29,8 +29,14 @@ task :default => conf
 
 desc "Create #{conf} file [default]"
 file conf => [bundles, __FILE__, local_bundle, local_conf, *config_files] do |t|
+  if File.file?(conf)
+    $stderr.puts "Updating #{conf}"
+  else
+    $stderr.puts "Creating #{conf}"
+  end
   open(conf, "wb"){|out|
     def out.source(path)
+      $stderr.puts "Include #{path}"
       self.puts
       self.puts '"--------------------------'
       self.puts "\" source #{Dir.pwd}/#{path}"
