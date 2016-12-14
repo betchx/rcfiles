@@ -16,8 +16,11 @@ file conf => config_files do |t|
     NNN
     config_files.each do |filename|
       #sh "cat #{filename} >> #{conf}"
+      cmd="# source from #{Dir.pwd}/#{filename}"
       out.puts
-      out.puts "source #{Dir.pwd}/#{filename}"
+      out.puts '##########################'
+      out.puts cmd
+      out.write open(filename).read
     end
   }
 end
