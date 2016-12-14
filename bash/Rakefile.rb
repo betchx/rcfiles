@@ -10,6 +10,7 @@ task :default => conf
 desc "Create #{conf} file"
 file conf => config_files do |t|
   open(conf, "wb"){|out|
+    $stderr.puts "Updating #{conf}"
     out.puts <<-NNN
 # .bashrc
 # Updated on #{Time.now.strftime('%Y-%m-%d %H:%M')}
@@ -20,6 +21,7 @@ file conf => config_files do |t|
       out.puts
       out.puts '##########################'
       out.puts cmd
+      $stderr.puts filename
       out.write open(filename).read
     end
   }
