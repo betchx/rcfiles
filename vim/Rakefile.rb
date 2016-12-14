@@ -31,7 +31,10 @@ desc "Create #{conf} file [default]"
 file conf => [bundles, __FILE__, local_bundle, local_conf, *config_files] do |t|
   open(conf, "wb"){|out|
     def out.source(path)
-      self.puts "source #{Dir.pwd}/#{path}"
+      self.puts
+      self.puts '"--------------------------'
+      self.puts "\" source #{Dir.pwd}/#{path}"
+      self.write open(path).read
     end
     out.puts <<-NNN
 " Vim initialization file
