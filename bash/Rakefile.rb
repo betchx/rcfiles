@@ -4,6 +4,9 @@ home = ENV['HOME']
 target = home+"/"+conf
 backups = home + "/.backups/bash"
 config_files = FileList['config/*.sh']
+host_file = 'local/'+ `hostname`.strip + '.sh'
+#$stderr.puts "host_flie = #{host_file}"
+config_files << host_file if File.file?(host_file)
 
 task :default => conf
 
