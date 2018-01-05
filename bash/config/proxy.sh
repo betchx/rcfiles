@@ -23,7 +23,7 @@ proxy_reset()
 
 proxy_update()
 {
-  CURRENT_IP=`ipconfig | grep IPv | awk -F ': ' 'NR==1{print $2}'`
+  CURRENT_IP=`ipconfig | grep -a IPv | awk -F ': ' 'NR==1{print $2}'`
   echo Current IP address is \"$CURRENT_IP\"
   case $CURRENT_IP in
     10.1.166.*)
