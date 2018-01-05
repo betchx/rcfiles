@@ -26,6 +26,10 @@ proxy_update()
   CURRENT_IP=`ipconfig | grep -a IPv | awk -F ': ' 'NR==1{print $2}'`
   echo Current IP address is \"$CURRENT_IP\"
   case $CURRENT_IP in
+    10.1.6.*)
+      export ns_proxy_address=192.168.3.5
+      proxy_setup
+      ;;
     10.1.166.*)
       proxy_setup
       ;;
