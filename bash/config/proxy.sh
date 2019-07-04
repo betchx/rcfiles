@@ -44,7 +44,8 @@ proxy_update()
 #var OsakaNSCWirelessip = "10.1.166.0";
 #var sub23 = "255.255.254.0";
     192.168.166.* | 192.168.167.* | 10.1.166.* | 10.1.167.*)
-      proxy_setup 192.168.166.12:8080
+      #proxy_setup 192.168.166.12:8080
+      proxy_setup ocp16:8080
       ;;
     *)
       proxy_reset
