@@ -10,6 +10,9 @@
 [guitool "encoding/file/utf-8"]
 	cmd = echo \"$FILENAME encoding=UTF-8\" >> .gitattributes
 	needsfile = yes
+[guitool "encoding/file/Unicode"]
+	cmd = echo \"$FILENAME encoding=UTF-8  diff=u16to8\" >> .gitattributes
+	needsfile = yes
 [guitool "encoding/file/euc"]
 	cmd = echo \"$FILENAME encoding=euc-JP\" >> .gitattributes
 	needsfile = yes
@@ -21,6 +24,9 @@
 	argprompt = yes
 [guitool "encoding/string/utf-8"]
 	cmd = echo \"$ARGS encoding=UTF-8\" >> .gitattributes
+	argprompt = yes
+[guitool "encoding/string/Unicode"]
+	cmd = echo \"$ARGS encoding=UTF-8  diff=u16to8\" >> .gitattributes
 	argprompt = yes
 [guitool "encoding/string/euc"]
 	cmd = echo \"$ARGS encoding=euc-JP\" >> .gitattributes
@@ -38,6 +44,9 @@
 [guitool "encoding-local/file/utf-8"]
 	cmd = echo \"$FILENAME encoding=UTF-8\" >> .git/info/attributes
 	needsfile = yes
+[guitool "encoding-local/file/Unicode"]
+	cmd = echo \"$FILENAME encoding=UTF-8  diff=u16to8\" >> .git/info/attributes
+	needsfile = yes
 [guitool "encoding-local/file/euc"]
 	cmd = echo \"$FILENAME encoding=euc-JP\" >> .git/info/attributes
 	needsfile = yes
@@ -49,6 +58,9 @@
 	argprompt = yes
 [guitool "encoding-local/string/utf-8"]
 	cmd = echo \"$ARGS encoding=UTF-8\" >> .git/info/attributes
+	argprompt = yes
+[guitool "encoding-local/string/Unicode"]
+	cmd = echo \"$ARGS encoding=UTF-8  diff=u16to8\" >> .git/info/attributes
 	argprompt = yes
 [guitool "encoding-local/string/euc"]
 	cmd = echo \"$ARGS encoding=euc-JP\" >> .git/info/attributes
