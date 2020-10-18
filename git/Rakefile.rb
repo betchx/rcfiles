@@ -1,6 +1,15 @@
 
 conf=".gitconfig"
 user_conf = "user.gitconfig"
+winmerge_conf = "winmerge.gitconfig"
+WINMERGE_SEARCH_DIR = [
+  "C:/Softs/WinMerge",
+  "C:/Program Files/WinMerge",
+  "D:/DATA/Softs/WinMerge",
+  "D:/Softs/WinMerge",
+  "C:/Softs/WinMergePortable/App/WinMerge",
+  ]
+
 backups = ENV['HOME']+"/.backups/git"
 config_files = FileList['config/*.gitconfig']
 target = ENV['HOME']+"/"+conf
@@ -9,8 +18,8 @@ task :default => conf
 
 
 desc "Create .gitconfig file"
-file conf => [user_conf, *config_files] do |t|
-  sh "cp -f #{user_conf} #{conf}"
+file conf => [user_conf, winmerge_conf, *config_files] do |t|
+  sh "cat #{user_conf}  #{winmerge_conf} > #{conf}"
   
   config_files.each do |filename|
     if filename =~ /exclude.gitconfig/
@@ -41,6 +50,35 @@ file user_conf do
     NNN
   end
 end
+
+file winmerge_conf do
+  # find exe
+  exe = "WinMergeU.exe"  # for path
+  WINMERGE_SEARCH_DIR.each do |path|
+    if File.exist?( path + "/WinMergeU.exe")
+      exe = path + "/WinMergeU.exe"
+      $stderr.puts "WinMergeU.exe is found in #{path}"
+      break
+    end
+  end
+  
+  open(winmerge_conf, "wb") do |out|
+  out.puts <<-NNN
+
+# Configuration for Winmerge
+[diff]
+    tool = winmerge
+
+[difftool "winmerge"]
+    cmd =  \"#{exe}\"  -r -ub \"$LOCAL\" \"$REMOTE\"
+
+[guitool "DiffTool"]
+     cmd = git difftool --dir-diff
+     needsfile = no
+
+  NNN
+  end
+end 
 
 
 task :install => [conf, backups] do 
