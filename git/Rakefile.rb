@@ -70,11 +70,7 @@ file winmerge_conf do
     tool = winmerge
 
 [difftool "winmerge"]
-    cmd =  \"#{exe}\"  -r -ub \"$LOCAL\" \"$REMOTE\"
-
-[guitool "DiffTool"]
-     cmd = git difftool --dir-diff
-     needsfile = no
+    cmd =  \"#{exe}\"  -r -ub -wl -wr  \"$LOCAL\" \"$REMOTE\"
 
   NNN
   end

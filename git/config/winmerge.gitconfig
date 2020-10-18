@@ -1,0 +1,12 @@
+[diff "u16to8"]
+	textconv = "iconv -f UTF-16 -t UTF-8"
+
+[guitool "DiffTool dir-diff"]
+    cmd = git difftool --dir-diff
+    needsfile = no
+	noconsole = yes
+
+[guitool "WinMerge file"]
+    cmd = git difftool --tool=winmerge -y  -- $FILENAME
+    needsfile = yes
+	noconsole = yes
