@@ -1,0 +1,7 @@
+
+[merge]
+	ff = false
+
+[pull]
+	ff = only
+
