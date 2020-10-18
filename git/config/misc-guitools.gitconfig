@@ -1,0 +1,10 @@
+[guitool "Edit by Sakura"]
+	cmd = c:/Softs/sakura/sakura.exe $FILENAME
+	noconsole = yes
+	needsfile = yes
+
+[guitool "addTag to HEAD"]
+	cmd = git tag $ARGS
+	noconsole = yes
+	argprompt = yes
+
