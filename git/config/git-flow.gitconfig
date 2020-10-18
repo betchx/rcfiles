@@ -1,0 +1,8 @@
+
+[guitool "git flow/feature start"]
+	cmd = git flow feature start $ARGS
+	argprompt = yes
+
+[guitool "git flow/feature finish"]
+	cmd = git flow feature finish
+
