@@ -1,4 +1,4 @@
 # reset a selected file
 [guitool "Reset/file"]
-     cmd = git checkout $FILENAME
-     needsfile = yes
+    cmd = git checkout $FILENAME
+    needsfile = yes

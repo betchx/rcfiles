@@ -51,7 +51,8 @@ file user_conf do
   end
 end
 
-file winmerge_conf do
+
+file winmerge_conf => ["Rakefile.rb"] do
   # find exe
   exe = "WinMergeU.exe"  # for path
   WINMERGE_SEARCH_DIR.each do |path|
@@ -70,7 +71,20 @@ file winmerge_conf do
     tool = winmerge
 
 [difftool "winmerge"]
-    cmd =  \"#{exe}\"  -r -ub -wl -wr  \"$LOCAL\" \"$REMOTE\"
+    cmd =  \"#{exe}\"  -r -ub -wl -wr  \\\"$LOCAL\" \\\"$REMOTE\"
+
+[merge]
+    tool = winmerge
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+
+[mergetool "winmerge"]
+    path = \"#{exe}\"
+    cmd =  \"#{exe}\" \\\"$MERGED\\\"
+    trustExitCode = false
+
 
   NNN
   end

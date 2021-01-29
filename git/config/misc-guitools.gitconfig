@@ -3,6 +3,16 @@
 	noconsole = yes
 	needsfile = yes
 
+[difftool "sourcetree"]
+	cmd = 'C:/Softs/WinMerge/WinMergeU.exe' \"$LOCAL\" \"$REMOTE\"
+
+[mergetool "sourcetree"]
+	cmd = "'' "
+	trustExitCode = true
+
+[gui]
+	tabsize = 2
+
 [guitool "addTag to HEAD"]
 	cmd = git tag $ARGS
 	noconsole = yes
