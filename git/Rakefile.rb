@@ -71,7 +71,7 @@ file winmerge_conf => ["Rakefile.rb"] do
     tool = winmerge
 
 [difftool "winmerge"]
-    cmd =  \"#{exe}\"  -r -ub -wl -wr  \\\"$LOCAL\" \\\"$REMOTE\"
+    cmd =  \"#{exe}\"  -r -ub -wl -wr  \\\"$LOCAL\\\" \\\"$REMOTE\\\"
 
 [merge]
     tool = winmerge
