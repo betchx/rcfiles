@@ -31,7 +31,7 @@ NeoBundle 'xmledit'
 "NeoBundle 'flazz/vim-colorschemes'
 
 " Git
-NeoBundle 'tpope/vim-fugitive'
+"NeoBundle 'tpope/vim-fugitive'
 
 " Unite
 NeoBundle 'Shougo/unite.vim'
