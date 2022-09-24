@@ -1,3 +1,27 @@
+[merge]
+    tool = winmerge
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+
+[mergetool "winmerge"]
+    path = "C:/Softs/WinMerge/WinMergeU.exe"
+    cmd =  "C:/Softs/WinMerge/WinMergeU.exe" \"$MERGED\"
+    trustExitCode = false
+
+[mergetool "winmerge_bin_base_remote"]
+    cmd =  "C:/Softs/WinMerge/WinMergeU.exe" -e -u -wl -wr -dl \"Base File\" -dr \"Theirs (Remote) File\" \"$BASE\" \"$REMOTE\"
+    trustExitCode = false
+
+[mergetool "winmerge_bin_base_local"]
+    cmd =  "C:/Softs/WinMerge/WinMergeU.exe" -e -u -wl -wr -dl \"Base File\" -dr \"Mine (Local) File\" \"$BASE\" \"$LOCAL\"
+    trustExitCode = false
+
+[mergetool "winmerge_bin_local_remote"]
+    cmd =  "C:/Softs/WinMerge/WinMergeU.exe" -e -u -wl -wr -dl \"Base File\" -dr \"Mine (Local) File\" \"$LOCAL\" \"$REMOTE\"
+    trustExitCode = false
+
 [diff "u16to8"]
 	textconv = "iconv -f UTF-16 -t UTF-8"
 
@@ -11,4 +35,17 @@
     needsfile = yes
 	noconsole = yes
 
+[guitool "binMerge/base2remote"]
+	cmd = git mergetool --tool=winmerge_bin_base_remote $FILENAME
+	needsfile = yes
+	noconsole = yes
 
+[guitool "binMerge/base2local"]
+	cmd = git mergetool --tool=winmerge_bin_base_local $FILENAME
+	needsfile = yes
+	noconsole = yes
+
+[guitool "binMerge/local2remote"]
+	cmd = git mergetool --tool=winmerge_bin_local_remote $FILENAME
+	needsfile = yes
+	noconsole = yes
