@@ -4,6 +4,13 @@ from abaqus import *
 from abaqusConstants import *
 import __main__
 
+#######
+# Prefixのルール
+# A: 作業フォルダのマクロ用に予約（先頭に表示させるため）
+# B: 使用頻度が高いものに使用する．
+# C:
+# Z: 普段使用しないもの．
+
 
 ###############
 ## extract
@@ -18,7 +25,7 @@ import __main__
 # def SelectOdb():          return session.odbs[SelectOdbKey()]
 # def SelectOdbKey():
 # def SelectModel():        return mdb.models[SelectModelKey()]
-# def SelectModelKey():     
+# def SelectModelKey():
 # def currentOdb():         return session.odbs[currentOdbKey()]
 # def currentOdbKey():      return session.viewports[session.currentViewportName].odbDisplay.name
 
@@ -155,7 +162,6 @@ def checkPath():
   #    msg += i + "\n"
   #  getInput(msg)
 
-
 def C_Precision4():
     import sketch
     mdb.models[0].sketches['__profile__'].sketchOptions.setValues(decimalPlaces=4)
@@ -188,11 +194,10 @@ def E_SaveAllPlotAsXYXYForamt():
   header = []
   for key in session.xyDataObjects.keys():
     xy = session.xyDataObjects[key]
-    data = xy.data
-    n = len(data)
+    n = len(xy.data)
     if max_len < n:
       max_len = n
-    data_list.append(data)
+    data_list.append(xy.data)
     header.append("X")
     header.append(xy.name)
   #
@@ -211,7 +216,7 @@ def E_SaveAllPlotAsXYXYForamt():
           res.append("")
       out.writerow(res)
 
-def E_SaveAllPlotAsTimeSerieseFormat():
+def E_SaveAllPlotAsTimeSeriesFormat():
   import visualization
   import xyPlot
   import displayGroupOdbToolset as dgo
