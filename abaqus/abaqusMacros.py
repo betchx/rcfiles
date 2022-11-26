@@ -13,46 +13,30 @@ import __main__
 
 def BA_RotateX90Neg():
     try:
-      import visualization
       import extract
       extract.cvp().view.rotate(xAngle=-90, yAngle=0, zAngle=0, mode=MODEL)
     except Exception as e:
-      print(e.message)
+      print(e)
       raise
 
 def BA_RotateZ180():
-    import visualization
     import extract
     extract.cvp().view.rotate(xAngle=0, yAngle=0, zAngle=180, mode=MODEL)
 
 def BB_Back2White():
-    import visualization
-    import xyPlot
-    import displayGroupOdbToolset as dgo
-    session.graphicsOptions.setValues(backgroundStyle=SOLID, 
-        backgroundColor='#FFFFFF')
+    session.graphicsOptions.setValues(backgroundStyle=SOLID, backgroundColor='#FFFFFF')
 
 def BB_Back2Gradation():
-    import visualization
-    import xyPlot
-    import displayGroupOdbToolset as dgo
     session.graphicsOptions.setValues(backgroundStyle=GRADIENT,
         backgroundColor='#000054',
         backgroundBottomColor='#7A7A90')
 
 def BB_Back2Original():
-    import visualization
-    import xyPlot
-    import displayGroupOdbToolset as dgo
     session.graphicsOptions.setValues(backgroundStyle=GRADIENT,
         backgroundColor='#1B2D46',
         backgroundBottomColor='#A3B1C6')
 
-
 def BD_View4Deform():
-    import visualization
-    import xyPlot
-    import displayGroupOdbToolset as dgo
     session.View(name='User-4', nearPlane=6508.9, farPlane=15050, width=7663.3, 
         height=4375.9, projection=PARALLEL, cameraPosition=(5878.1, 4197.6, 
         8612.1), cameraUpVector=(-0.37389, 0.73454, -0.56626), cameraTarget=(
@@ -60,28 +44,21 @@ def BD_View4Deform():
 
 #
 def BP_RemoveAllXY():
-    import xyPlot
     for xy in session.xyDataObjects.keys():
       del session.xyDataObjects[xy]
 
 # alias
 def BP_ClearAllXY():
-  RemoveAllXY()
+  BP_RemoveAllXY()
 
 
 def BT_AddPrefixToTempXYandRetern():
-    import visualization
-    import xyPlot
-    import displayGroupOdbToolset as dgo
     import extract
-    B_AddPrefixToTempXY()
+    BT_AddPrefixToTempXY()
     session.viewports[session.currentViewportName].odbDisplay.display.setValues(plotState=(UNDEFORMED, ))
     session.viewports[session.currentViewportName].setValues(displayedObject=extract.currentOdb())
 
 def BT_AddPrefixToTempXY():
-    import visualization
-    import xyPlot
-    import displayGroupOdbToolset as dgo
     pre = getInput('Enter Prefix')
     for xy in session.xyDataObjects.keys():
       if xy[0] == '_':
