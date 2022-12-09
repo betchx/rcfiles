@@ -973,7 +973,7 @@ def O_PlotTrainLoad():
           plotLoadingArrow("TL-B-%d-%d" % (car+1, ax+1), x, b_y, b_z, 0.0, 0.0, 0.0, 0, 10, "P")
     #
   except Exception as e:
-    print(e.message)
+    print(e)
     raise
 
 def O_PlotLoadArrowToNset():
@@ -1008,7 +1008,7 @@ def O_PlotLoadArrowToNset():
       plotLoadingArrow("CL-%d" % (i, ), c[0], c[1], c[2], 0.0, 0.0, 0.0, 0, alen, label)
     #
   except Exception as e:
-    print(e.message)
+    print(e)
     raise
 
 def O_LiveLoadStress():
@@ -1041,9 +1041,6 @@ def O_LiveLoadStress():
     sessionField = sessionFrame.FieldOutput(name='U',    description='Spatial displacement', field=u)
 
 def O_LiveLoadResults():
-  import visualization
-  import xyPlot
-  import displayGroupOdbToolset as dgo
   import extract
   from textRepr import prettyPrint as pp
 
@@ -1081,8 +1078,6 @@ def O_LiveLoadResults():
 
 # 節点の結果を出力するマクロ
 def X_NOT_YET_ExtractHistoryFromFieldByNset():
-
-  #from extract import SelectOdb, GetElsets, UniaxialGaugeStress
   import os.path
   import extract
   import tempXY
@@ -1143,7 +1138,7 @@ def __template():
     try:
       pass
     except Exception as e:
-      print(e.message)
+      print(e)
       raise
 
 def plotLoadingArrow(arrowName, x, y, z, dx, dy, dz, ox, oy, caption=""):
@@ -1214,3 +1209,21 @@ def checkPath():
   #  for i in res:
   #    msg += i + "\n"
   #  getInput(msg)
+
+
+def C_createFO_from_EID():
+  import extract
+  path = getInput("設定CSVファイル名", "extract.csv")
+  if path == "":
+    return
+  ans = []
+  odb = extract.currentOdb()
+  asm = odb.rootAssembly
+  with open(path) as csv:
+    csv.readline() # ヘッダ読み捨て
+    # CH名称	説明	インスタンス	コンポーネント	SP	節点	要素1	要素2	要素3	要素4
+    lines = csv.readlines()
+  for line in lines:
+    name, desc, ins, comp, sp, node, elm1, elm2, elm3, elm4 = str.split(line, ",")
+    ### ここから
+    
