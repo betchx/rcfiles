@@ -1209,31 +1209,18 @@ def checkPath():
   #    msg += i + "\n"
   #  getInput(msg)
 
-
 def C_createFO_from_EID():
   import extract
-  def xyMean(x1, x2, x3=None, x4=None, x5=None, x6=None, x7=None, x8 = None):
-    # type: (xyData, xyData, xyData | None, xyData | None, xyData | None, xyData | None, xyData | None, xyData | None ) -> xyData
-    if x3 is None:
-      return (x1 + x2) / 2
-    if x4 is None:
-      return (x1 + x2 + x3) / 3
-    if x5 is None:
-      return (x1 + x2 + x3 + x4) / 4
-    if x6 is None:
-      return (x1 + x2 + x3 + x4 + x5) / 5
-    if x7 is None:
-      return (x1 + x2 + x3 + x4 + x5 + x6) / 6
-    if x8 is None:
-      return (x1 + x2 + x3 + x4 + x5 + x6 + x7) / 7
-    else:
-      return (x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8) / 8
+  import tempXY
+  # CompMap
+  CompMap = {"S1": "S11", "S2": "S22", "ST": "S12", "SO": "S12"}
   #
   path = getInput("設定CSVファイル名", "Extract.csv")
   if path == "":
     return
   rpt = getInput("出力先ファイル名", "Extracted.rpt")
   res = []
+  keys = []
   try:
     odb = extract.currentOdb()
     asm = odb.rootAssembly
@@ -1242,42 +1229,90 @@ def C_createFO_from_EID():
       # CH名称	説明	インスタンス	コンポーネント	SP	節点	要素1	要素2	要素3	要素4
       lines = csv.readlines()
     for line in lines:
-      items = line.split(",")
-      name, desc, ins, comp, sp, node, elm1, elm2, elm3, elm4 = items
+      ##print(line)
+      items = line.strip().split(",")
+      name, desc, ins, tag, sp, node = items[0:6]
+      comp = CompMap[tag]
+      if sp == "" or sp == "3":
+        sp_key = " SP:"
+      else:
+        sp_key = " SP:" + sp + " "
+      n_key = " N: " + node
+      print(name + ";  " + tag + " -> " + comp + " at " + sp_key)
       ### 抽出対象要素番号リストの作成
-      elms = [ int(e) for e in items[6:9]]
-      while elms[-1] is None or elms[-1] == "":
-        elms.pop()
+      elms = [ int(e) for e in items[6:] if e != ""]
+      ##print(elms)
       res = [] # type: list[xyData]
       if node != "":
+        print( ins +  "の要素[{}]  の節点 {}({}) に対して抽出".format( ",".join([str(i) for i in elms])  ,node, n_key) )
         xys = extract.FieldOutputAtElementNodes(odb, ins, elms, comp)
-        ans = xyMean( *(xy for xy in xys if "N: {}".format(node) in xy.name if "SP: {}".format(sp) in xy.name) )
+        atNode = [xy for xy in xys if n_key in xy.name if sp_key in xy.name]
+        if len(atNode) == 0:
+          print("要素と節点の対応がついていません")
+          for eid in elms:
+            e = asm.instances[ins].getElementFromLabel(eid)
+            print("  要素{} の節点： {}".format(e.label, ",".join([str(i) for i in e.connectivity])))
+        res.append( sum(atNode) / len(atNode) )
         # 抽出したxyデータは削除
         for xy in xys:
           del session.xyDataObjects[xy.name]
       elif len(elms) == 1:
         #単一要素 ==> 要素中央
-        xys = extract.FieldOutputAtElementCenter(odb, ins, elms, comp)
-        for xy in xys:
-          if  "SP: {}".format(sp) in xy.name:
-            res.append(xy)
+        print(ins + "の要素 {} の要素中心で抽出".format(elms[0]) )
+        if tag in ("ST", "SO"):
+          # 斜めなので，モール円を用いて回転
+          xyt = []
+          for key in ("S11", "S22", "S12"):
+            xys = extract.FieldOutputAtElementCenter(odb, ins, elms, "S11")
+            for xy in xys:
+              if sp_key in xy.name:
+                xyt.append(xy)
+              else:
+                del session.xyDataObjects[xy.name]
+          x, y, s = xyt
+          # 回転方向を検討
+          if tag == "ST":
+            res.append( (x + y) / 2 - s)
           else:
+            res.append( (x + y) / 2 + s)
+          # 抽出したxyデータは削除
+          for xy in xyt:
             del session.xyDataObjects[xy.name]
+        else:
+          xys = extract.FieldOutputAtElementCenter(odb, ins, elms, comp)
+          for xy in xys:
+            ##print("Check '" + sp_key + "' in '" + xy.name + "'")
+            if  sp_key in xy.name:
+              res.append(xy)
+            else:
+              del session.xyDataObjects[xy.name]
       else:
-        els = [asm.elements[e] for e in elms]
+        print( ins +  "の要素  {} の共通節点で抽出".format( reduce(lambda a,b: str(a) + " " + str(b), elms  ) ) )
+        els = [asm.instances[ins].getElementFromLabel(e) for e in elms]
         # 共通節点の抽出
-        ns = [x for x in els[0].connectivity for e2 in els[1:-1] if x in e2.connectivity]
+        ns = [x for x in els[0].connectivity for e2 in els[1:] if x in e2.connectivity]
+        ##print (ns)
+        if len(ns) == 0:
+          print("共通節点がありません．データを確認してください")
+          for e in els:
+            print( "要素{}の節点: {}".format(str(e.label), reduce(lambda a,b: str(a) + " " + str(b), e.connectivity) ) )
+          return
         # 要素節点で出力
         xys = extract.FieldOutputAtElementNodes(odb, ins, elms, comp)
+        ##xys = session.xyDataObjects.values()
+        common_xys = [xy for xy in xys for n in ns if "N: {}".format(n) in xy.name if sp_key in xy.name]
+        ##print(common_xys)
         # 共通節点の結果を抽出して平均を算出
-        ans = xyMean(*(xy for xy in xys for n in ns if "N:{}".format(n) in xy.name if "SP: {}".format(sp) in xy.name))
+        ans = sum(common_xys) / len(common_xys)
         res.append(ans)
         # 抽出したxyデータは削除
         for xy in xys:
           del session.xyDataObjects[xy.name]
+      ##print(res)
       session.xyDataObjects.changeKey(res[-1].name, name)
-      res[-1].description = desc
+      keys.append(name)
     # 出力
-    session.writeXYReport(fileName=rpt, appendMode=OFF, xyData=tuple(res))
+    session.writeXYReport(fileName=rpt, appendMode=OFF, xyData=tuple([session.xyDataObjects[key] for key in keys]))
+    tempXY.RemoveAll()
   except Exception as e:
     print(e)
