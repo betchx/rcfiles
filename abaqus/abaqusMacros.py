@@ -1243,7 +1243,9 @@ def C_createFO_from_EID():
       elms = [ int(e) for e in items[6:] if e != ""]
       ##print(elms)
       res = [] # type: list[xyData]
-      if node != "":
+      if session.xyDataObjects.has_key(name):
+        print("すでにあるためスキップします：" + name)
+      elif node != "":
         print( ins +  "の要素[{}]  の節点 {}({}) に対して抽出".format( ",".join([str(i) for i in elms])  ,node, n_key) )
         xys = extract.FieldOutputAtElementNodes(odb, ins, elms, comp)
         atNode = [xy for xy in xys if n_key in xy.name if sp_key in xy.name]
@@ -1309,7 +1311,8 @@ def C_createFO_from_EID():
         for xy in xys:
           del session.xyDataObjects[xy.name]
       ##print(res)
-      session.xyDataObjects.changeKey(res[-1].name, name)
+      if not session.xyDataObjects.has_key(name):
+        session.xyDataObjects.changeKey(res[-1].name, name)
       keys.append(name)
     # 出力
     session.writeXYReport(fileName=rpt, appendMode=OFF, xyData=tuple([session.xyDataObjects[key] for key in keys]))
