@@ -1012,11 +1012,8 @@ def O_PlotLoadArrowToNset():
     raise
 
 def O_LiveLoadStress():
-  import visualization
-  import xyPlot
-  import displayGroupOdbToolset as dgo
   import extract
-  from textRepr import prettyPrint as pp
+  from textRepr import prettyPrint as pp # type: ignore
 
   def getRes(frame):
     fo = frame.fieldOutputs
@@ -1088,6 +1085,8 @@ def X_NOT_YET_ExtractHistoryFromFieldByNset():
   stem = os.path.splitext(basename)[0]
   keys = []
   nsets = extract.GetNsets()
+  if nsets is None:
+    return
   for nset in nsets:
     print(nset)
     n = nset.find(' ')
@@ -1213,17 +1212,72 @@ def checkPath():
 
 def C_createFO_from_EID():
   import extract
-  path = getInput("設定CSVファイル名", "extract.csv")
+  def xyMean(x1, x2, x3=None, x4=None, x5=None, x6=None, x7=None, x8 = None):
+    # type: (xyData, xyData, xyData | None, xyData | None, xyData | None, xyData | None, xyData | None, xyData | None ) -> xyData
+    if x3 is None:
+      return (x1 + x2) / 2
+    if x4 is None:
+      return (x1 + x2 + x3) / 3
+    if x5 is None:
+      return (x1 + x2 + x3 + x4) / 4
+    if x6 is None:
+      return (x1 + x2 + x3 + x4 + x5) / 5
+    if x7 is None:
+      return (x1 + x2 + x3 + x4 + x5 + x6) / 6
+    if x8 is None:
+      return (x1 + x2 + x3 + x4 + x5 + x6 + x7) / 7
+    else:
+      return (x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8) / 8
+  #
+  path = getInput("設定CSVファイル名", "Extract.csv")
   if path == "":
     return
-  ans = []
-  odb = extract.currentOdb()
-  asm = odb.rootAssembly
-  with open(path) as csv:
-    csv.readline() # ヘッダ読み捨て
-    # CH名称	説明	インスタンス	コンポーネント	SP	節点	要素1	要素2	要素3	要素4
-    lines = csv.readlines()
-  for line in lines:
-    name, desc, ins, comp, sp, node, elm1, elm2, elm3, elm4 = str.split(line, ",")
-    ### ここから
-    
+  rpt = getInput("出力先ファイル名", "Extracted.rpt")
+  res = []
+  try:
+    odb = extract.currentOdb()
+    asm = odb.rootAssembly
+    with open(path) as csv:
+      csv.readline() # ヘッダ読み捨て
+      # CH名称	説明	インスタンス	コンポーネント	SP	節点	要素1	要素2	要素3	要素4
+      lines = csv.readlines()
+    for line in lines:
+      items = line.split(",")
+      name, desc, ins, comp, sp, node, elm1, elm2, elm3, elm4 = items
+      ### 抽出対象要素番号リストの作成
+      elms = [ int(e) for e in items[6:9]]
+      while elms[-1] is None or elms[-1] == "":
+        elms.pop()
+      res = [] # type: list[xyData]
+      if node != "":
+        xys = extract.FieldOutputAtElementNodes(odb, ins, elms, comp)
+        ans = xyMean( *(xy for xy in xys if "N: {}".format(node) in xy.name if "SP: {}".format(sp) in xy.name) )
+        # 抽出したxyデータは削除
+        for xy in xys:
+          del session.xyDataObjects[xy.name]
+      elif len(elms) == 1:
+        #単一要素 ==> 要素中央
+        xys = extract.FieldOutputAtElementCenter(odb, ins, elms, comp)
+        for xy in xys:
+          if  "SP: {}".format(sp) in xy.name:
+            res.append(xy)
+          else:
+            del session.xyDataObjects[xy.name]
+      else:
+        els = [asm.elements[e] for e in elms]
+        # 共通節点の抽出
+        ns = [x for x in els[0].connectivity for e2 in els[1:-1] if x in e2.connectivity]
+        # 要素節点で出力
+        xys = extract.FieldOutputAtElementNodes(odb, ins, elms, comp)
+        # 共通節点の結果を抽出して平均を算出
+        ans = xyMean(*(xy for xy in xys for n in ns if "N:{}".format(n) in xy.name if "SP: {}".format(sp) in xy.name))
+        res.append(ans)
+        # 抽出したxyデータは削除
+        for xy in xys:
+          del session.xyDataObjects[xy.name]
+      session.xyDataObjects.changeKey(res[-1].name, name)
+      res[-1].description = desc
+    # 出力
+    session.writeXYReport(fileName=rpt, appendMode=OFF, xyData=tuple(res))
+  except Exception as e:
+    print(e)
