@@ -1264,8 +1264,8 @@ def C_createFO_from_EID():
         if tag in ("ST", "SO"):
           # Î‚ß‚È‚Ì‚ÅCƒ‚[ƒ‹‰~‚ğ—p‚¢‚Ä‰ñ“]
           xyt = []
-          for key in ("S11", "S22", "S12"):
-            xys = extract.FieldOutputAtElementCenter(odb, ins, elms, "S11")
+          for cmp in ("S11", "S22", "S12"):
+            xys = extract.FieldOutputAtElementCenter(odb, ins, elms, cmp)
             for xy in xys:
               if sp_key in xy.name:
                 xyt.append(xy)
