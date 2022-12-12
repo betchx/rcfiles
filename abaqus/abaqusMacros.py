@@ -1212,19 +1212,35 @@ def checkPath():
 def C_createFO_from_EID():
   import extract
   import tempXY
+  import os.path
   # CompMap
   CompMap = {"S1": "S11", "S2": "S22", "ST": "S12", "SO": "S12"}
   #
-  path = getInput("設定CSVファイル名", "Extract.csv")
-  if path == "":
+  file = getInput("設定CSVファイル名", "Extract.csv")
+  if file is None:
     return
-  rpt = getInput("出力先ファイル名", "Extracted.rpt")
+  print(file)
+  if file == "Extract.csv":
+    rpt = "Extracted.rpt"
+  else:
+    a = os.path.splitext(file)
+    print(a)
+    rpt = "_" + a[0] + '.rpt'
+  print(rpt)
+  rpt = getInput("出力先ファイル名", rpt)
+  if rpt is None:
+    return
   res = []
   keys = []
   try:
     odb = extract.currentOdb()
     asm = odb.rootAssembly
-    with open(path) as csv:
+    if not os.path.exists(file):
+      file = "..\\" + file
+    if not os.path.exists(file):
+      print("ファイル({})が見つかりません".format(file))
+      return
+    with open(file) as csv:
       csv.readline() # ヘッダ読み捨て
       # CH名称	説明	インスタンス	コンポーネント	SP	節点	要素1	要素2	要素3	要素4
       lines = csv.readlines()
