@@ -1302,10 +1302,15 @@ def C_createFO_from_EID():
           xys = extract.FieldOutputAtElementCenter(odb, ins, elms, comp)
           for xy in xys:
             ##print("Check '" + sp_key + "' in '" + xy.name + "'")
+            Missing = True
             if  sp_key in xy.name:
               res.append(xy)
+              Missing = False
             else:
               del session.xyDataObjects[xy.name]
+          if Missing:
+            print("結果が抽出されませんでした．データを確認してください")
+            return
       else:
         print( ins +  "の要素  {} の共通節点で抽出".format( reduce(lambda a,b: str(a) + " " + str(b), elms  ) ) )
         els = [asm.instances[ins].getElementFromLabel(e) for e in elms]
