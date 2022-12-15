@@ -1253,6 +1253,8 @@ def C_createFO_from_EID():
       comp = CompMap[tag]
       if sp == "" or sp == "3":
         sp_key = " SP:"
+      elif sp == "0":
+        sp_key = "" # チェックしない．膜要素用．
       else:
         sp_key = " SP:" + sp + " "
       n_key = " N: " + node
