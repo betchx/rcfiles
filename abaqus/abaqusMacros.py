@@ -1248,6 +1248,8 @@ def C_createFO_from_EID():
       ##print(line)
       items = line.strip().split(",")
       name, desc, ins, tag, sp, node = items[0:6]
+      if name == "" or name[0:1] == "#":
+        continue
       comp = CompMap[tag]
       if sp == "" or sp == "3":
         sp_key = " SP:"
