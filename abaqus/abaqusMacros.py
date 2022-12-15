@@ -1340,7 +1340,14 @@ def C_createFO_from_EID():
         session.xyDataObjects.changeKey(res[-1].name, name)
       keys.append(name)
     # èoóÕ
+    print("writing to " + rpt)
     session.writeXYReport(fileName=rpt, appendMode=OFF, xyData=tuple([session.xyDataObjects[key] for key in keys]))
+    print("Done")
     tempXY.RemoveAll()
-  except Exception as e:
-    print(e)
+  except Exception, e:
+    print("Exception")
+    print(e.message)
+    info  = sys.exc_info()
+    c, ax, t = info
+    print "Error:",ax.message
+
