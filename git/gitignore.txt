@@ -95,6 +95,7 @@ abaqus.rpy.*
 *.mdl
 *.simlog
 *.simdir
+abaqus_acis.log
 
 ###############################################
 # Python 
