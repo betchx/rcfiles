@@ -97,6 +97,7 @@ abaqus.rpy.*
 *.simdir
 abaqus_acis.log
 *.ipm
+ABQ.*.dmp
 
 ###############################################
 # Python 
