@@ -276,10 +276,10 @@ def E_ExtractStressHistoryFromFieldByElset():
   import extract
   import tempXY
   from abaqus import session
-  odb_key = extract.SelectOdbKey()
+  odbkey = extract.SelectOdbKey()
   print(odb_key)
-  odb = session.odbs[odb_key]
-  basename = os.path.basename(odb_key)
+  odb = session.odbs[odbkey]
+  basename = os.path.basename(odbkey)
   stem = os.path.splitext(basename)[0]
   keys = []
   elsets = extract.GetElsets()
@@ -309,10 +309,11 @@ def E_SaveAllPlotAsXYXYForamt():
   header = []
   for key in session.xyDataObjects.keys():
     xy = session.xyDataObjects[key]
-    n = len(xy.data)
+    data = xy.data
+    n = len(data)
     if max_len < n:
       max_len = n
-    data_list.append(xy.data)
+    data_list.append(data)
     header.append("X")
     header.append(xy.name)
   #
