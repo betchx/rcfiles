@@ -572,7 +572,7 @@ def M_AssignProperty():
     import os.path
     import csv
     try:
-      fname = getInput('Setting File Name?')
+      fname = getInput('Setting File Name?','Assign.csv')
       #fname = 'MG-24_8'  # for debug
       if not os.path.isfile(fname):
         fname = fname + '.csv'
@@ -688,7 +688,7 @@ def M_CreateShellSection():
     import csv
     try:
       #fname = 'testshell'
-      fname = getInput('Setting File Name?')
+      fname = getInput('Setting File Name?','Prop.csv')
       if not os.path.isfile(fname):
         fname = fname + '.csv'
         if not os.path.isfile(fname):
