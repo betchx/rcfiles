@@ -598,6 +598,41 @@ def M_AssignProperty():
       print(e.message)
       raise
 
+def M_DumpPartSets():
+  try:
+    import section
+    import regionToolset
+    import displayGroupMdbToolset as dgm
+    import part
+    import material
+    import assembly
+    import optimization
+    import step
+    import interaction
+    import load
+    import mesh
+    import job
+    import sketch
+    import visualization
+    import xyPlot
+    import displayGroupOdbToolset as dgo
+    import connectorBehavior
+    import os.path
+    import csv
+    import extract
+    model = extract.SelectModel()
+    fname = model.name + '_part_sets.csv'
+    with open(fname, "wb") as f:
+      writer = csv.writer(f)
+      writer.writerow(["#model","Part","Set"])
+      for part in model.parts.values():
+        print part.name
+        for s in part.sets.keys():
+          writer.writerow((model.name,part.name,s))
+  except Exception as e:
+      print e.message
+      raise
+
 def M_DumpPropertyAssignment():
     import section
     import regionToolset
