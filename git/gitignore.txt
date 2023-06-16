@@ -82,6 +82,7 @@ id_rsa
 abaqus.rpy
 abaqus.rpy.*
 *.odb
+*.odb_f
 *.stt
 *.sta
 *.pdb
