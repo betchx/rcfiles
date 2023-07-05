@@ -99,6 +99,7 @@ abaqus.rpy.*
 abaqus_acis.log
 *.ipm
 ABQ.*.dmp
+*.1.SMABulk
 
 ###############################################
 # Python 
